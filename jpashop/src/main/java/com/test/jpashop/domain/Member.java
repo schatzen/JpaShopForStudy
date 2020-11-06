@@ -1,7 +1,6 @@
 package com.test.jpashop.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -9,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Builder
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 
     //테이블은 타입이 없으므로 관례상 테이블명 + id를 많이 사용한다
