@@ -6,12 +6,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    public List<Member> findMembers() {
+        List<Member> list = memberRepository.findAll();
+        return list;
+    }
 
 
     public Long join(Member member) {

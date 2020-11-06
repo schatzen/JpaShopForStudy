@@ -1,5 +1,6 @@
 package com.test.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class Member {
     @Embedded
     private Address address;
 
+    //@JsonIgnore  : Entity에 화면을 뿌리기 위한 로직 -> 안좋음
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 }

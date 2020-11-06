@@ -1,9 +1,8 @@
 package com.test.jpashop.api;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.test.jpashop.domain.Member;
-import com.test.jpashop.dto.CreateMemberRequest;
-import com.test.jpashop.dto.MemberDTO;
 import com.test.jpashop.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -19,6 +20,39 @@ import javax.validation.constraints.NotEmpty;
 public class MemberApiController {
 
     private final MemberService memberService;
+
+
+    @GetMapping("/api/v1/members")
+    public List<Member> membersV1() {
+        return memberService.findMembers();
+    }
+
+    @GetMapping("/api/v2/members")
+    public Result membersV2() {
+        List<Member> findMembers = memberService.findMembers();
+        List<MemberDto> collect = findMembers.stream()
+                .map(m -> new MemberDto(m.getName()))
+                .collect(Collectors.toList());
+
+        // collect를 바로 return 시키면 Json배열로 바로 나가기 때문에 유연성이 떨어진다.
+        // 따라서 Result로 한 번 포장해줘야 하는 것
+
+        return new Result(collect.size(),collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberDto {
+
+        private String name;
+    }
 
     @PostMapping("/api/v1/members")
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid Member member) {
