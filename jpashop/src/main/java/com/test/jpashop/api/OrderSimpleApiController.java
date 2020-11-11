@@ -1,9 +1,6 @@
 package com.test.jpashop.api;
 
-import com.test.jpashop.domain.Address;
-import com.test.jpashop.domain.Order;
-import com.test.jpashop.domain.OrderSearch;
-import com.test.jpashop.domain.OrderStatus;
+import com.test.jpashop.domain.*;
 import com.test.jpashop.repository.OrderRepository;
 import com.test.jpashop.service.OrderService;
 import lombok.Data;
@@ -81,6 +78,10 @@ public class OrderSimpleApiController {
             orderStatus = order.getStatus();
             address = order.getDelivery().getAddress(); //LAZY 초기화
         }
+    }
+
+    public List<SimpleOrderQueryDto> findOrderDtos() {
+        return em.
     }
 
 
